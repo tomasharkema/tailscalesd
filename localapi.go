@@ -98,12 +98,14 @@ func (a *localAPIClient) Devices(ctx context.Context) ([]Device, error) {
 	if err != nil {
 		return nil, err
 	}
-	devices := make([]Device, len(status.Peer))
+	devices := make([]Device, len(status.Peer) + 1)
 	var i int
 	for _, peer := range status.Peer {
 		translatePeerToDevice(peer, &devices[i])
 		i++
 	}
+	translatePeerToDevice(status.Self, &devices[i])
+	i++
 	return devices, nil
 }
 
